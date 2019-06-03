@@ -30,12 +30,10 @@ if answer == 'четные':
     for num in range(21):
         if (num % 2) == 0:
             print(num, ' ', end='')
-    print()
 elif answer == 'нечетные':
     for num in range(21):
         if (num % 2) == 1:
             print(num, ' ', end='')
-    print()
 else:
     print('Я не понимаю, чего вы от меня хотите')
 
@@ -49,7 +47,7 @@ else:
 # * постарайтесь решить задачу с применением арифметики и цикла while;
 # * при желании и понимании решите задачу с применением цикла for.
 
-num = input("Введите целое число: ")
+num = input("\nВведите целое число: ")
 
 while not num.isdigit():
     num = input('Вы ввели не целое число. Введите целое число: ')
@@ -64,11 +62,11 @@ while w_num > 0:
 print(m)
 
 # решение через for
-m = '0'
+m = 0
 for i in num:
-    if i > m:
-        m = i
+    if int(i) > m:
+        m = int(i)
 print(m)
 
 # ещё один вариант
-print(max(num))
+print(max(num, key=int))
