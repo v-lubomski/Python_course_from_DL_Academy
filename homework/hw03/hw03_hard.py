@@ -1,9 +1,15 @@
 # Задание-1: уравнение прямой вида y = kx + b задано в виде строки.
 # Определить координату y точки с заданной координатой x.
 
-# equation = 'y = -12x + 11111140.2121'
-# x = 2.5
+equation = 'y = -12x + 11111140.2121'
+x = 2.5
 # вычислите и выведите y
+
+equation = equation.split(' ')
+num1 = float(equation[2][:3])
+num2 = float(equation[4])
+y = num1 * x + num2
+print(y)
 
 
 # Задание-2: Дата задана в виде строки формата 'dd.mm.yyyy'.
@@ -23,6 +29,26 @@
 # date = '01.22.1001'
 # date = '1.12.1001'
 # date = '-2.10.3001'
+
+date = input('Введите дату: ').split('.')
+
+day = date[0]
+month = date[1]
+year = date[2]
+short_months = [2, 4, 6, 9, 11]
+
+if (len(day) != 2) and (len(month) != 2) and (len(year)!= 4):
+    print('Неверный формат даты!')
+elif int(day) not in range(1, 32):
+    print('Неверно указан день')
+elif (int(month) in short_months) and int(day) == 31:
+    print('Неверно указан день')
+elif int(month) not in range(1, 13):
+    print('Неверно указан месяц')
+elif int(year) not in range(1, 2000):
+    print('Неверно указан год')
+else:
+    print('Дата введена корректно')
 
 
 # Задание-3: "Перевёрнутая башня" (Задача олимпиадного уровня)
@@ -54,3 +80,18 @@
 #
 # Вход: 11
 # Выход: 5 3
+
+room = int(input('Введите номер комнаты: '))
+block = 1
+last_room = 1
+last_floor = 1
+
+while room > last_room:
+    block += 1
+    last_room += block ** 2
+    last_floor += block
+
+dif = last_room - room
+floor = last_floor - (dif // block)
+num = int(block - (dif % block))
+print('Этаж: {}, порядковый номер слева: {}'.format(floor, num))
