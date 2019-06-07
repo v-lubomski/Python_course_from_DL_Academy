@@ -37,7 +37,7 @@ month = date[1]
 year = date[2]
 short_months = [2, 4, 6, 9, 11]
 
-if (len(day) != 2) and (len(month) != 2) and (len(year)!= 4):
+if (len(day) != 2) and (len(month) != 2) and (len(year) != 4):
     print('Неверный формат даты!')
 elif int(day) not in range(1, 32):
     print('Неверно указан день')
@@ -45,7 +45,7 @@ elif (int(month) in short_months) and int(day) == 31:
     print('Неверно указан день')
 elif int(month) not in range(1, 13):
     print('Неверно указан месяц')
-elif int(year) not in range(1, 2000):
+elif int(year) not in range(1, 10000):
     print('Неверно указан год')
 else:
     print('Дата введена корректно')
