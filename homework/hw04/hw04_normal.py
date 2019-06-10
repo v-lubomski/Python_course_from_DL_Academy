@@ -23,7 +23,7 @@ def segment_fib(n: int, m: int) -> list:  # Решение с помощью р�
     return list_fib[n-1:m]  # Делаю срез необходимых значений
 
 
-print(segment_fib(898, 900))
+print(segment_fib(9, 15))
 
 
 # Задача-2:
@@ -31,11 +31,23 @@ print(segment_fib(898, 900))
 # Для сортировки используйте любой алгоритм (например пузырьковый).
 # Для решения данной задачи нельзя использовать встроенную функцию и метод sort()
 
+from random import choice, randint
+
 
 def sort_to_max(origin_list):
-    pass
+    if len(origin_list) <= 1:
+        return origin_list
+    else:
+        pivot = choice(origin_list)
+        less = [x for x in origin_list if x < pivot]
+        equal = [x for x in origin_list if x == pivot]
+        grater = [x for x in origin_list if x > pivot]
+        return sort_to_max(less) + equal + sort_to_max(grater)
 
-sort_to_max([2, 10, -12, 2.5, 20, -11, 4, 4, 0])
+
+my_list = [randint(1, 1000) for x in range(20)]
+print(my_list)
+print(sort_to_max(my_list))
 
 # Задача-3:
 # Напишите собственную реализацию стандартной функции filter.
