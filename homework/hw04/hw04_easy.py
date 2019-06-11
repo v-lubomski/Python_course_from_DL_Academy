@@ -33,13 +33,16 @@ print(my_round(2.9999967, 5))
 # Решение реализовать в виде функции.
 # Билет считается счастливым, если сумма его первых и последних цифр равны.
 # !!!P.S.: функция не должна НИЧЕГО print'ить, должна возвращать либо True,
-# ибо False (если счастливый и несчастливый соответственно)
+# либо False (если счастливый и несчастливый соответственно)
 
 def lucky_ticket(ticket_number):
-    ticket_number = str(ticket_number)
-    left_sum = ticket_number[0] + ticket_number[1] + ticket_number[2]
-    right_sum = ticket_number[3] + ticket_number[4] + ticket_number[5]
-    if left_sum == right_sum:
+    """
+    Checks six-digit number "ticket_number": if first three nums equal last three nums - return True, else - False
+    :param ticket_number: six-digit integer
+    :return: Boolean
+    """
+    nums_list = list(map(int, str(ticket_number)))  # Превращаем переданное число в список чисел
+    if sum(nums_list[:3]) == sum(nums_list[3:]):  # Выясняем, равны ли суммы первой и второй половины чисел списка
         return True
     else:
         return False

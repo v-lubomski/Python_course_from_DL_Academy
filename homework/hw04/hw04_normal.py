@@ -36,7 +36,7 @@ from random import choice, randint
 
 def sort_to_max(origin_list: list) -> list:
     """
-    Sorting numbers in origin_list from less to more
+    Sorting numbers in "origin_list" from less to more using "quick sort" algorithm
     :param origin_list: unsorted list of numbers
     :return: sorted origin_list
     """
@@ -57,6 +57,19 @@ print('Задача 2. Отсортированный список:', sort_to_ma
 # Задача-3:
 # Напишите собственную реализацию стандартной функции filter.
 # Разумеется, внутри нельзя использовать саму функцию filter.
+
+
+def my_filter(func, sequence):
+    """
+    Filter "sequence" with "func" function
+    :param func: function
+    :param sequence: sequence (list or other types sequences)
+    :return:
+    """
+    return (el for el in sequence if func(el))
+
+
+print(list(my_filter(lambda x: True if x > 500 else False, my_list)))
 
 
 # Задача-4:
