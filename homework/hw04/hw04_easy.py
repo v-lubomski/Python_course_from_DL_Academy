@@ -9,7 +9,7 @@ def convert(km):
     print(miles, 'миль')
 
 
-print('Задача 1: ', end='')
+print('Задача 1. Мили: ', end='')
 convert(23)
 
 # Задание-2:
@@ -19,13 +19,24 @@ convert(23)
 # Для решения задачи не используйте встроенные функции и функции из модуля math.
 
 
-def my_round(number, ndigits):
-    pass
+def my_round(number: float, ndigits: int) -> float:
+    """
+    Rounds number "number" to "ndigits" digits after point
+    :param number: floating point number
+    :param ndigits: to how many digits after the point we want to round "number"
+    :return:
+    """
+    number = number * 10**ndigits  # Сдвигаем точку вправо на ndigits знаков
+    if number - int(number) > 0.5:  # Если первая цифра после точки больше 5
+        number = number // 1 + 1  # Округляем число вверх, обрубая знаки после точки и прибавляя 1
+    else:
+        number = number // 1  # Если нет - просто обрубаем число до точки (целочисленное деление всегда округляет вниз)
+    return number / 10**ndigits  # Сдвигаем точку на ndigits знаков влево
 
 
-print(my_round(2.1234567, 5))
-print(my_round(2.1999967, 5))
-print(my_round(2.9999967, 5))
+print('Задача 2. Округляем 2.1234567:', my_round(2.1234567, 5))
+print('Задача 2. Округляем 2.1999967:', my_round(2.1999967, 5))
+print('Задача 2. Округляем 2.9999967:', my_round(2.9999967, 5))
 
 
 # Задание-3:
@@ -35,7 +46,7 @@ print(my_round(2.9999967, 5))
 # !!!P.S.: функция не должна НИЧЕГО print'ить, должна возвращать либо True,
 # либо False (если счастливый и несчастливый соответственно)
 
-def lucky_ticket(ticket_number):
+def lucky_ticket(ticket_number: int) -> bool:
     """
     Checks six-digit number "ticket_number": if first three nums equal last three nums - return True, else - False
     :param ticket_number: six-digit integer
@@ -48,6 +59,6 @@ def lucky_ticket(ticket_number):
         return False
 
 
-print(lucky_ticket(123006))
-print(lucky_ticket(12321))
-print(lucky_ticket(436751))
+print('Задача 3. Счастливый ли билет с номером 123006:', lucky_ticket(123006))
+print('Задача 3. Счастливый ли билет с номером 12321:', lucky_ticket(12321))
+print('Задача 3. Счастливый ли билет с номером 436751:', lucky_ticket(436751))

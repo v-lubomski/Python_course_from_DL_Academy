@@ -69,7 +69,8 @@ def my_filter(func, sequence):
     return (el for el in sequence if func(el))
 
 
-print(list(my_filter(lambda x: True if x > 500 else False, my_list)))
+print('Задача 3. Отфильтрованный список из предыдущей задачи, с числами больше 500:',
+      list(my_filter(lambda x: True if x > 500 else False, my_list)))
 
 
 # Задача-4:
