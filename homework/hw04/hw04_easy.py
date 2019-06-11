@@ -6,9 +6,10 @@
 
 def convert(km):
     miles = km * 1.609
-    print(miles)
+    print(miles, 'миль')
 
 
+print('Задача 1: ', end='')
 convert(23)
 
 # Задание-2:

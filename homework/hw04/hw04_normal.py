@@ -23,7 +23,7 @@ def segment_fib(n: int, m: int) -> list:  # Решение с помощью р�
     return list_fib[n-1:m]  # Делаю срез необходимых значений
 
 
-print(segment_fib(9, 15))
+print('Задача 1. Числа Фибоначчи:', segment_fib(9, 15))
 
 
 # Задача-2:
@@ -34,7 +34,12 @@ print(segment_fib(9, 15))
 from random import choice, randint
 
 
-def sort_to_max(origin_list):
+def sort_to_max(origin_list: list) -> list:
+    """
+    Sorting numbers in origin_list from less to more
+    :param origin_list: unsorted list of numbers
+    :return: sorted origin_list
+    """
     if len(origin_list) <= 1:
         return origin_list
     else:
@@ -46,8 +51,8 @@ def sort_to_max(origin_list):
 
 
 my_list = [randint(1, 1000) for x in range(20)]
-print(my_list)
-print(sort_to_max(my_list))
+print('Задача 2. Несортированный список:', my_list)
+print('Задача 2. Отсортированный список:', sort_to_max(my_list))
 
 # Задача-3:
 # Напишите собственную реализацию стандартной функции filter.
