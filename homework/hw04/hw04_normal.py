@@ -77,3 +77,25 @@ print('Задача 3. Отфильтрованный список из пред
 # Даны четыре точки А1(х1, у1), А2(x2 ,у2), А3(x3 , у3), А4(х4, у4).
 # Определить, будут ли они вершинами параллелограмма.
 
+def input_to_dict(input_string):
+    list_of_values = input_string.split(',')
+    coordinates_dict = dict()
+    coordinates_dict['x'] = int(list_of_values[0])
+    coordinates_dict['y'] = int(list_of_values[1])
+    return coordinates_dict
+
+
+a1 = input_to_dict(input('Введите через запятую без пробелов координаты x,y точки A1 (пример: 345,14): '))
+a2 = input_to_dict(input('Введите через запятую без пробелов координаты x,y точки A2 (пример: 345,14): '))
+a3 = input_to_dict(input('Введите через запятую без пробелов координаты x,y точки A3 (пример: 345,14): '))
+a4 = input_to_dict(input('Введите через запятую без пробелов координаты x,y точки A4 (пример: 345,14): '))
+
+x1, y1 = a1['x'], a1['y']
+x2, y2 = a2['x'], a2['y']
+x3, y3 = a3['x'], a3['y']
+x4, y4 = a4['x'], a4['y']
+
+if x3 - x2 == x4 - x1 and y2 - y1 == y3 - y4:
+    print('Введённые точки - вершины паралеллограмма')
+else:
+    print('Введённые точки - не вершины паралеллограмма')
