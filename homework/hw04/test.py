@@ -9,7 +9,45 @@
 # Ввод: -2/3 - -2
 # Вывод: 1 1/3
 
+import re
 # Подзадача 1 - парсинг дробей
+
+# equation = input('Калькулятор дробей поддерживает сложение и вычитание положительных и отрицательных дробей '
+#                       'с целой частью или без.\n'
+#                       'Уравнение записывается в виде: n x/y + n2 x2/y2, '
+#                       'где n - целая часть, x - числитель, у - знаменатель.\n'
+#                       'Двойкой в примере выше обозначается лишь принадлежность ко второй дроби.\n'
+#                       'Пример с числами: 45 5/6 - 4/7\n\n'
+#                       'Введите свой пример: ')
+
+equation = '-234/6 + -3224 3/334545'
+
+first_fraction_str = ''.join(re.findall(r'^-?\d*\s?-?\d*/\d*', equation)).strip()
+second_fraction_str = ''.join(re.findall(r'-?\d*\s?-?\d*/\d*$', equation)).strip()
+
+print(first_fraction_str)
+print(second_fraction_str)
+
+
+# first_fraction = {'num': 0, 'den': 0, 'div': 0}
+# second_fraction = {'num': 0, 'den': 0, 'div': 0}
+#
+# if len(equation_list) == 5:
+#     first_fraction['num'] = equation_list[0]
+#     first_fraction['den'] = equation_list[1][0]
+#     first_fraction['div'] = equation_list[1][2]
+#     second_fraction['num'] = equation_list[3]
+#     second_fraction['den'] = equation_list[4][0]
+#     second_fraction['div'] = equation_list[4][2]
+#     sign = equation_list[2]
+# elif len(equation_list) == 3:
+#     first_fraction['den'] = equation_list[0][0]
+#     first_fraction['div'] = equation_list[0][2]
+#     second_fraction['den'] = equation_list[2][0]
+#     second_fraction['div'] = equation_list[2][2]
+#     sign = equation_list[1]
+#
+# print(first_fraction, second_fraction)
 
 
 def gcd(x: int, y: int) -> int:
@@ -21,28 +59,40 @@ def gcd(x: int, y: int) -> int:
     return x
 
 
-def add(den1: int, div1: int, den2: int, div2: int) -> (int, int, int):
+def add_or_sub(den1: int, div1: int, sign: str, den2: int, div2: int) -> (int, int, int):
     """
     Складывает две дроби, упрощает, выделяет целую часть
     :param den1: знаменатель первого числа
     :param div1: делитель первого числа
+    :param sign: знак ("+" или "-")
     :param den2: знаменатель второго числа
     :param div2: делитель второго числа
     :return: кортеж: целая часть, делитель, знаменатель (int, int, int)
     """
-    com_den = den1 * div2 + div1 * den2  # приводим дроби к общему делителю и складываем
-    com_div = div1 * div2
-    gr_com_div = gcd(com_den, com_div)  # находим наибольший общий делитель
-    den = com_den//gr_com_div  # сокращаем знаменатель
+
+    if sign == '+':
+        total_den = den1 * div2 + div1 * den2  # приводим знаменатели к общему делителю и складываем
+    if sign == '-':
+        total_den = den1 * div2 - div1 * den2  # приводим знаменатели к общему делителю и вычитаем
+    com_div = div1 * div2  # вычисляем общий делитель
+
+    gr_com_div = gcd(total_den, com_div)  # находим наибольший общий делитель
+    den = total_den//gr_com_div  # сокращаем знаменатель
     div = com_div//gr_com_div  # сокращаем делитель
-    num = den // div  # находим целую часть
-    den = den % div  # находим знаменатель
+    if den < 0:  # находим целую часть и знаменатель
+        num = (abs(den) // div) * -1
+        den = (abs(den) % div) * -1
+    else:
+        num = den // div
+        den = den % div
     if den == 0:  # если знаменатель сократился
         div = 0  # сокращаем и делитель
     return num, den, div
 
 
-print(add(1134, 4, 4000, 2))
+
+
+print(add_or_sub(-198, 7, '-', -33, 152))
 
 
 # Задачи:
