@@ -10,50 +10,45 @@
 # Вывод: 1 1/3
 
 import re
-# Подзадача 1 - парсинг дробей
 
-# equation = input('Калькулятор дробей поддерживает сложение и вычитание положительных и отрицательных дробей '
-#                       'с целой частью или без.\n'
-#                       'Уравнение записывается в виде: n x/y + n2 x2/y2, '
-#                       'где n - целая часть, x - числитель, у - знаменатель.\n'
-#                       'Двойкой в примере выше обозначается лишь принадлежность ко второй дроби.\n'
-#                       'Пример с числами: 45 5/6 - 4/7\n\n'
-#                       'Введите свой пример: ')
 
-equation = '-2 3/334545 + 3/334545'  # строка - пример с дробью для экспериментов
+equation = input('Калькулятор дробей поддерживает сложение и вычитание положительных и отрицательных дробей '
+                 'с целой частью или без.\n'
+                 'Уравнение записывается в виде: n x/y + n2 x2/y2, '
+                 'где n - целая часть, x - числитель, у - знаменатель.\n'
+                 'Двойкой в примере выше обозначается лишь принадлежность ко второй дроби.\n'
+                 'Пример с числами: 45 5/6 - 4/7\n\n'
+                 'Введите свой пример: ')
 
-first_fraction_str = re.findall(r'^-?\d*\s?-?\d*/?\d*', equation)[0].strip()  # получаю строку с первой дробью
-second_fraction_srt = re.findall(r'-?\d*\s?-?\d*/?\d*$', equation)[0].strip()  # получаю строку со второй дробью
+fractions = []
+sign = ''
+
+if ' + ' in equation:
+    fractions = equation.split(' + ')
+    sign = '+'
+if ' - ' in equation:
+    fractions = equation.split(' - ')
+    sign = '-'
 
 
 def convert(fraction_str):
-    fraction_str = re.split(r' ', fraction_str)  # создаю из строки список с целой (если есть) и дробной частью
-    # надо ещё разбить по слешу
-    return fraction_str
+    fraction = {'num': 0, 'den': 0, 'div': 0}
+    if '/' not in fraction_str:
+        fraction['num'] = int(fraction_str)
+    elif ' ' in fraction_str:
+        fraction['num'] = int(fraction_str.split(' ')[0])
+        fraction['den'] = int(re.findall(r'^\d+', fraction_str.split(' ')[1])[0])
+        fraction['div'] = int(re.findall(r'\d+$', fraction_str.split(' ')[1])[0])
+    else:
+        fraction['den'] = int(re.findall(r'^-?\d+', fraction_str)[0])
+        fraction['div'] = int(re.findall(r'\d+$', fraction_str)[0])
+    return fraction
 
 
-print(convert(first_fraction_str))
-print(convert(second_fraction_srt))
+first_fraction = convert(fractions[0])
+second_fraction = convert(fractions[1])
 
-# first_fraction = {'num': 0, 'den': 0, 'div': 0}
-# second_fraction = {'num': 0, 'den': 0, 'div': 0}
-#
-# if len(equation_list) == 5:
-#     first_fraction['num'] = equation_list[0]
-#     first_fraction['den'] = equation_list[1][0]
-#     first_fraction['div'] = equation_list[1][2]
-#     second_fraction['num'] = equation_list[3]
-#     second_fraction['den'] = equation_list[4][0]
-#     second_fraction['div'] = equation_list[4][2]
-#     sign = equation_list[2]
-# elif len(equation_list) == 3:
-#     first_fraction['den'] = equation_list[0][0]
-#     first_fraction['div'] = equation_list[0][2]
-#     second_fraction['den'] = equation_list[2][0]
-#     second_fraction['div'] = equation_list[2][2]
-#     sign = equation_list[1]
-#
-# print(first_fraction, second_fraction)
+print(first_fraction, second_fraction)
 
 
 def gcd(x: int, y: int) -> int:
@@ -97,11 +92,6 @@ def add_or_sub(den1: int, div1: int, sign: str, den2: int, div2: int) -> (int, i
 
 
 
-
-print(add_or_sub(-198, 7, '-', -33, 152))
-
-
 # Задачи:
-# 1) Реализовать вычитание
 # 2) Реализовать работу с отрицательными числами (приводить к отрицательному знаменателю)
-# 3) Реализовать парсинг уравнения и приведение целого к дроби
+# 3) Реализовать парсинг дроби приведение целого к дроби
