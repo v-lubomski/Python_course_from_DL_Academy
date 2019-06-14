@@ -20,14 +20,20 @@ import re
 #                       'Пример с числами: 45 5/6 - 4/7\n\n'
 #                       'Введите свой пример: ')
 
-equation = '-234/6 + -3224 3/334545'
+equation = '-2 3/334545 + 3/334545'  # строка - пример с дробью для экспериментов
 
-first_fraction_str = ''.join(re.findall(r'^-?\d*\s?-?\d*/\d*', equation)).strip()
-second_fraction_str = ''.join(re.findall(r'-?\d*\s?-?\d*/\d*$', equation)).strip()
+first_fraction_str = re.findall(r'^-?\d*\s?-?\d*/?\d*', equation)[0].strip()  # получаю строку с первой дробью
+second_fraction_srt = re.findall(r'-?\d*\s?-?\d*/?\d*$', equation)[0].strip()  # получаю строку со второй дробью
 
-print(first_fraction_str)
-print(second_fraction_str)
 
+def convert(fraction_str):
+    fraction_str = re.split(r' ', fraction_str)  # создаю из строки список с целой (если есть) и дробной частью
+    # надо ещё разбить по слешу
+    return fraction_str
+
+
+print(convert(first_fraction_str))
+print(convert(second_fraction_srt))
 
 # first_fraction = {'num': 0, 'den': 0, 'div': 0}
 # second_fraction = {'num': 0, 'den': 0, 'div': 0}
