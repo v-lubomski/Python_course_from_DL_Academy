@@ -3,22 +3,45 @@
 # используя конструкцию try добавьте в код обработку соответствующих исключений.
 # Пример.
 # Исходная программа:
+# def avg(a, b):
+#     """Вернуть среднее геометрическое чисел 'a' и 'b'.
+#
+#     Параметры:
+#         - a, b (int или float).
+#
+#     Результат:
+#         - float.
+#     """
+#     return (a * b) ** 0.5
+#
+#
+# a = float(input("a = "))
+# b = float(input("b = "))
+# c = avg(a, b)
+# print("Среднее геометрическое = {:.2f}".format(c))
+
+
 def avg(a, b):
-    """Вернуть среднее геометрическое чисел 'a' и 'b'.
-
-    Параметры:
-        - a, b (int или float).
-
-    Результат:
-        - float.
+    """
+    Вернуть среднее геометрическое чисел 'a' и 'b'.
+    :param a: int или float
+    :param b: int или float
+    :return: float
     """
     return (a * b) ** 0.5
 
 
-a = float(input("a = "))
-b = float(input("b = "))
-c = avg(a, b)
-print("Среднее геометрическое = {:.2f}".format(c))
+try:
+    a = float(input("a = "))
+    b = float(input("b = "))
+except ValueError as err:
+    print('Ошибка: {}. Проверьте введенные числа.'.format(err))
+except Exception as err:
+    print('Ошибка: {}'.format(err))
+else:
+    c = avg(a, b)
+    print("Среднее геометрическое = {:.2f}".format(c))
+
 
 # Задача-2:
 # Напишите небольшую консольную утилиту,
