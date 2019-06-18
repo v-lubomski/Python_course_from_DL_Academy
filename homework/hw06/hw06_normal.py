@@ -31,6 +31,7 @@ def avg(a, b):
     return (a * b) ** 0.5
 
 
+print('----------\nЗадача 1.')
 try:
     a = float(input("a = "))
     b = float(input("b = "))
