@@ -59,3 +59,30 @@ else:
 # Для решения данной задачи используйте алгоритмы из задания easy,
 # оформленные в виде соответствующих функций,
 # и импортированные в данный файл из easy.py
+
+from hw06_easy_done import go_to_folder, show_all, del_folder, create_folder
+
+action = input('----------\nЗадача 2.\n'
+               '\nЧто вы хотите сделать?\n'
+               '1. Перейти в папку\n'
+               '2. Просмотреть содержимое текущей папки\n'
+               '3. Удалить папку\n'
+               '4. Создать папку\n'
+               '\nВведите цифру соответствующую выбранному действию: ')
+
+
+def actions(act):
+    if act == '1':
+        folder_name = input('Введите название папки, вкоторую хотите перейти: ')
+        go_to_folder(folder_name)
+    if act == '2':
+        show_all()
+    if act == '3':
+        folder_name = input('Введите название папки, которую хотите удалить: ')
+        del_folder(folder_name)
+    if act == '4':
+        folder_name = input('Введите название папки, которую хотите создать: ')
+        create_folder(folder_name)
+
+
+actions(action)

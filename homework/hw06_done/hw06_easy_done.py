@@ -81,8 +81,21 @@ if __name__ == '__main__':
 # ----------------------------------------------------------------------------------- #
 # функции для hw06_easy
 
+# 1. Перейти в папку
+def go_to_folder(folder_name):
+    """
+    Переходит в указанную в виде аргумента папку
+    :param folder_name: название папки
+    :return:
+    """
+    if os.path.isdir(folder_name):
+        os.chdir(folder_name)
+        print('Теперь ты в папке {}'.format(folder_name))
+    else:
+        print('Невозможно перейти в папку {}, так как она отсутствует в текущей директории'.format(folder_name))
 
-# 2. Посмотреть содержимое папки
+
+# 2. Просмотреть содержимое текущей папки
 def show_all():
     """
     Выводит содержимое текущей директории через print
@@ -91,3 +104,31 @@ def show_all():
         print(each)
     if not os.listdir(os.getcwd()):
         print('Текущая директория пуста')
+
+
+# 3. Удалить папку
+def del_folder(folder_name):
+    """
+    Удаляет указанную в виде аргумента папку
+    :param folder_name: название папки
+    :return:
+    """
+    if os.path.isdir(folder_name):
+        shutil.rmtree(folder_name)
+        print('Папка {} удалена'.format(folder_name))
+    else:
+        print('Невозможно удалить папку {}, так как она отсутствует в текущей директории'.format(folder_name))
+
+
+# 4. Создать папку
+def create_folder(folder_name):
+    """
+    Создаёт указанную в виде аргумента папку
+    :param folder_name: название папки
+    :return:
+    """
+    if not os.path.isdir(folder_name):
+        os.mkdir(folder_name)
+        print('Папка {} создана'.format(folder_name))
+    else:
+        print('Невозможно создать папку {}, так как она уже присутствует в текущей директории'.format(folder_name))
