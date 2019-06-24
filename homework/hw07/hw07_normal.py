@@ -18,66 +18,85 @@
 
 
 class People:
-    def __init__(self, name, father_name, surname):
+    def __init__(self, name):
         self.name = name
-        self.surname = surname
-        self.patronymic = father_name
-
-    @property
-    def full_name(self):
-        return self.name + ' ' + self.patronymic + ' ' + self.surname
-
-    @property
-    def short_name(self):
-        return '{} {}.{}.'.format(self.surname.title(), self.name[0].upper(), self.patronymic[0].upper())
 
 
 class Student(People):
-    def __init__(self, name, father_name, surname, mom, dad, school_class):
-        People.__init__(self, name, father_name, surname)
-        self.mom = mom
-        self.dad = dad
-        self.school_class = school_class
+    def __init__(self, name, classroom, *parents):
+        super().__init__(name)
+        self.__parents = parents
+        self.classroom = classroom
+
+    @property
+    def short_name(self):
+        name_list = self.name.split(' ')
+        return name_list[0] + ' {}.'.format(name_list[1][0]) + '{}.'.format(name_list[2][0])
+
+    @property
+    def objects(self):
+        return [x.subject for x in self.classroom.teachers]
+
+    @property
+    def parents(self):
+        return [x.name for x in self.__parents]
 
 
 class Teacher(People):
-    def __init__(self, name, father_name, surname, subject):
-        People.__init__(self, name, father_name, surname)
+    def __init__(self, name, subject):
+        super().__init__(name)
         self.subject = subject
 
 
-class ClassRooms:
-    def __init__(self, class_room, teachers):
-        self.class_room = class_room
-        self.teachers_dict = {t.subject: t for t in teachers}
+class ClassRoom:
+    def __init__(self, name, *teachers):
+        self.name = name
+        self.teachers = teachers
 
 
-teachers = [Teacher('Иван', 'Иванович', 'Иванов', 'Математика'),
-            Teacher('Петр', 'Петрович', 'Петров', 'Литература'),
-            Teacher('Сидор', 'Сидорович', 'Сидоров', 'Физика'),
-            Teacher('Дмитрий', 'Дмитриевич', 'Дмитриев', 'История'),
-            Teacher('Никита', 'Никитиевич', 'Никишин', 'Биология')]
-classes = [ClassRooms('11 А', [teachers[0], teachers[1], teachers[2]]),
-           ClassRooms('11 Б', [teachers[1], teachers[3], teachers[4]]),
-           ClassRooms('10 А', [teachers[3], teachers[1], teachers[0]])]
-parents = [People('Семен', 'Семенович', 'Семенов'),
-           People('Светлана', 'Савельевна', 'Семенова'),
-           People('Роман', 'Романович', 'Романов'),
-           People('Римма', 'Романовна', 'Романова'),
-           People('Сергей', 'Сергеевич', 'Сергеев'),
-           People('Юлия', 'Викторвна', 'Сергеева')]
-students = [Student('Игорь', 'Cеменович', 'Семенов', parents[0], parents[1], classes[0]),
-            Student('Ольга', 'Романова', 'Романова', parents[2], parents[3], classes[1]),
-            Student('Александр', 'Сергеевич', 'Сергеев', parents[4], parents[5], classes[2])]
-print('Список классов в школе: ')
-for f in classes:
-    print(f.class_room)
+class School:
+    def __init__(self, classrooms_dir):
+        self.__classrooms = classrooms_dir
 
-for f in classes:
-    print('Учителя, преподающие в {} классе:'.format(f.class_room))
-    for teacher in classes[0].teachers_dict.values():
-        print(teacher.full_name)
-for f in classes:
-    print("Ученики в классе {}:".format(f.class_room))
-    for st in students:
-        print(st.short_name)
+    @property
+    def classrooms(self):
+        return [x.name for x in self.__classrooms.values()]
+
+
+teachers = {'Оклахомов ИЖ': Teacher('Оклахомов Ильнур Жогбехметович', 'Математика'),
+            'Шлюпов ТФ': Teacher('Шлюпов Теодор Франклович', 'ОБЖ'),
+            'Теслов НВ': Teacher('Теслов Никола Васильевич', 'Литература')}
+
+classrooms = {'2A': ClassRoom('2А', teachers['Оклахомов ИЖ'], teachers['Шлюпов ТФ'], teachers['Теслов НВ']),
+           '3Б': ClassRoom('3Б', teachers['Шлюпов ТФ'], teachers['Теслов НВ']),
+           '4В': ClassRoom('4В', teachers['Теслов НВ'])}
+
+school = School(classrooms)
+
+parents = {'Иванов ИИ': People('Иванов Иван Иванович'),
+           'Иванова НА': People('Иванова Надежда Алексеевна'),
+           'Надеждина НН': People('Надеждина Надежда Надеждовна'),
+           'Романов РР': People('Романов Роман Романович'),
+           'Романова ОА': People('Романова Ольга Александровна')}
+
+students = {'Иванов ИИ': Student('Иванов Илья Иванович', classrooms['4В'], parents['Иванов ИИ'], parents['Иванова НА']),
+            'Надеждин СИ': Student('Надеждин Сурат Ибрагимович', classrooms['2A'], parents['Надеждина НН']),
+            'Романов ЦЦ': Student('Романов Царь Царевич', classrooms['3Б'], parents['Романов РР'], parents['Романова ОА'])}
+
+
+# 1. Получить полный список всех классов школы
+print(school.classrooms)
+
+# 2. Получить список всех учеников в указанном классе
+#  (каждый ученик отображается в формате "Фамилия И.О.")
+print([st.short_name for st in students.values() if st.classroom.name == '2А'])
+
+# 3. Получить список всех предметов указанного ученика
+#  (Ученик --> Класс --> Учителя --> Предметы)
+print(students['Романов ЦЦ'].objects)
+
+# 4. Узнать ФИО родителей указанного ученика
+print(students['Надеждин СИ'].parents)
+
+# 5. Получить список всех Учителей, преподающих в указанном классе
+print([x.name for x in classrooms['3Б'].teachers])
