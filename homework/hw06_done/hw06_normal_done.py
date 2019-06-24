@@ -28,20 +28,20 @@ def avg(a, b):
     :param b: int или float
     :return: float
     """
-    return (a * b) ** 0.5
+
+    try:
+        a = float(a)
+        b = float(b)
+    except ValueError as err:
+        print('Ошибка "{}". Проверьте введенные числа.'.format(err))
+    else:
+        return (a * b) ** 0.5
 
 
 print('----------\nЗадача 1.')
-try:
-    a = float(input("a = "))
-    b = float(input("b = "))
-except ValueError as err:
-    print('Ошибка: {}. Проверьте введенные числа.'.format(err))
-except Exception as err:
-    print('Ошибка: {}'.format(err))
-else:
-    c = avg(a, b)
-    print("Среднее геометрическое = {:.2f}".format(c))
+a = input("a = ")
+b = input("b = ")
+print("Среднее геометрическое = {:.2f}".format(avg(a, b)))
 
 
 # Задача-2:
