@@ -24,52 +24,94 @@ class People:
 
 class Student(People):
     def __init__(self, name, classroom, *parents):
+        """
+        :param name: имя студента
+        :param classroom: класс, в котором он учится
+        :param parents: родители студента (может не быть, или может быть несколько)
+        """
         super().__init__(name)
         self.__parents = parents
         self.classroom = classroom
 
-    @property
-    def short_name(self):
+    def get_short_name(self):
+        """
+        Получаем ФИО студента в сокращённом виде
+        :return: строка вида "Фамилия И.О"
+        """
         name_list = self.name.split(' ')
         return name_list[0] + ' {}.'.format(name_list[1][0]) + '{}.'.format(name_list[2][0])
 
     @property
-    def objects(self):
-        return [x.subject for x in self.classroom.teachers]
+    def subjects(self):
+        """
+        Достаём названия предметов класса в котором учится студент
+        :return: список названий предметов студента
+        """
+        return [x.name for x in self.classroom.subjects]
 
     @property
     def parents(self):
+        """
+        Достаём из экземпляров родителей студента их имена
+        :return: список имён родителей студента
+        """
         return [x.name for x in self.__parents]
 
 
 class Teacher(People):
-    def __init__(self, name, subject):
+    def __init__(self, name):
         super().__init__(name)
-        self.subject = subject
+
+
+class Subject:
+    """Класс предмета"""
+    def __init__(self, name, teacher):
+        """
+        :param name: название предмета
+        :param teacher: экземпляр учителя, который ведёт предмет
+        """
+        self.name = name
+        self.teacher = teacher
 
 
 class ClassRoom:
-    def __init__(self, name, *teachers):
+    def __init__(self, name, *subjects):
+        """
+        Класс (школьный)
+        :param name: название ("10А")
+        :param subjects: экземпляры предметов, которые преподаются в классе
+        """
         self.name = name
-        self.teachers = teachers
+        self.subjects = subjects
 
 
 class School:
-    def __init__(self, classrooms_dir):
-        self.__classrooms = classrooms_dir
+    def __init__(self, classrooms_dict):
+        """
+        :param classrooms_dict: словарь с классами, которые существуют в школе
+        """
+        self.__classrooms = classrooms_dict
 
     @property
     def classrooms(self):
+        """
+        достаём названия классов из списка значений словаря классов
+        :return: список названий классов
+        """
         return [x.name for x in self.__classrooms.values()]
 
 
-teachers = {'Оклахомов ИЖ': Teacher('Оклахомов Ильнур Жогбехметович', 'Математика'),
-            'Шлюпов ТФ': Teacher('Шлюпов Теодор Франклович', 'ОБЖ'),
-            'Теслов НВ': Teacher('Теслов Никола Васильевич', 'Литература')}
+subjects = {'math': Subject('Математика', Teacher('Оклахомов Ильнур Жогбехметович')),
+            'obzh': Subject('ОБЖ', Teacher('Шлюпов Теодор Франклович')),
+            'lit': Subject('Литература', Teacher('Теслов Никола Васильевич'))}
 
-classrooms = {'2A': ClassRoom('2А', teachers['Оклахомов ИЖ'], teachers['Шлюпов ТФ'], teachers['Теслов НВ']),
-           '3Б': ClassRoom('3Б', teachers['Шлюпов ТФ'], teachers['Теслов НВ']),
-           '4В': ClassRoom('4В', teachers['Теслов НВ'])}
+teachers = {'Оклахомов ИЖ': Teacher('Оклахомов Ильнур Жогбехметович'),
+            'Шлюпов ТФ': Teacher('Шлюпов Теодор Франклович'),
+            'Теслов НВ': Teacher('Теслов Никола Васильевич')}
+
+classrooms = {'2A': ClassRoom('2А', subjects['math'], subjects['obzh'], subjects['lit']),
+              '3Б': ClassRoom('3Б', subjects['obzh'], subjects['math']),
+              '4В': ClassRoom('4В', subjects['lit'])}
 
 school = School(classrooms)
 
@@ -89,14 +131,14 @@ print(school.classrooms)
 
 # 2. Получить список всех учеников в указанном классе
 #  (каждый ученик отображается в формате "Фамилия И.О.")
-print([st.short_name for st in students.values() if st.classroom.name == '2А'])
+print([st.get_short_name() for st in students.values() if st.classroom.name == '2А'])
 
 # 3. Получить список всех предметов указанного ученика
 #  (Ученик --> Класс --> Учителя --> Предметы)
-print(students['Романов ЦЦ'].objects)
+print(students['Романов ЦЦ'].subjects)
 
 # 4. Узнать ФИО родителей указанного ученика
 print(students['Надеждин СИ'].parents)
 
 # 5. Получить список всех Учителей, преподающих в указанном классе
-print([x.name for x in classrooms['3Б'].teachers])
+print([x.teacher.name for x in classrooms['3Б'].subjects])
